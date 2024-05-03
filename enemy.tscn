@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7wkg8by2pd1h"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_8e4hx"]
+[ext_resource type="PackedScene" uid="uid://yg12ililhg3v" path="res://stats.tscn" id="2_0yy64"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yug3q"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j2xnx"]
+material = SubResource("StandardMaterial3D_yug3q")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a6ler"]
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_8e4hx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_j2xnx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_a6ler")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="Stats" parent="." instance=ExtResource("2_0yy64")]
+
+[connection signal="you_died_signal" from="Stats" to="." method="_on_stats_you_died_signal"]
